@@ -4,9 +4,23 @@ h1 {text-align: center;}
 }
 
 .flex-container div {
-    background: peachpuff;
-    border: 4px solid brown;
+    content: "";
+    clear: both;
+    display: table;
+    background: rgb(11, 216, 252);
+    border: 4px solid rgba(0, 0, 0, 0);
     height: 100px;
     width: 250px;
+    flex: 1 1 auto;
+}
+#Add, #Subtract, #Multiply, #Divide {
+    text-decoration-thickness: 5px;
+    padding: 70px 0;
+    border: 3px solid green;
+    text-align: center;
+    background: rgb(69, 255, 18);
+    border: 4px solid rgb(0, 0, 0);
+    height: 100px;
+    width: 100%;
     flex: 1 1 auto;
 }
