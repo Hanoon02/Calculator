@@ -13,7 +13,7 @@ h1 {text-align: center;}
     width: 250px;
     flex: 1 1 auto;
 }
-#Add, #Subtract, #Multiply, #Divide {
+#Add, #Subtract, #Multiply, #Divide, #Clear {
     text-decoration-thickness: 5px;
     padding: 70px 0;
     border: 3px solid green;
