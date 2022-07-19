@@ -1,40 +1,59 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="styles.css">
-        <script src="scripts.js"></script>
-        <title>Calculator</title>
-    </head>
-    <body>
-        <main class="main">
-            <div class="calculator">
-                <div class="screen">
-                    <div class="Last" id="lastOperation"></div>
-                    <div class="Current" id="currentOperation"></div>
-                </div>
-                <div class="buttonGrid">
-                    <button id="clearButton">Clear</button>
-                    <button id="backspaceButton">Backspace</button>
-                    <button id="DeleteButton">Delete</button>
-                    <button onclick="assignNumber(0)" id="zero" type="button">0</button>
-                    <button onclick="assignNumber(1)" id="one" type="button">1</button>
-                    <button onclick="assignNumber(2)" id="two" type="button">2</button>
-                    <button onclick="assignNumber(3)" id="three" type="button">3</button>
-                    <button onclick="assignNumber(4)" id="four" type="button">4</button>
-                    <button onclick="assignNumber(5)" id="five" type="button">5</button>
-                    <button onclick="assignNumber(6)" id="six" type="button">6</button>
-                    <button onclick="assignNumber(7)" id="seven" type="button">7</button>
-                    <button onclick="assignNumber(8)" id="eight" type="button">8</button>
-                    <button onclick="assignNumber(9)" id="nine" type="button">9</button>
-                    <button onclick="add()" id="Add" type="button">+</button>
-                    <button onclick="subtract()" id="Subtract" type="button">-</button>
-                    <button onclick="multiply()" id="Multiply" type="button">x</button>
-                    <button onclick="divide()" id="Divide" type="button">/</button>
-                    <button onclick="clear()" id="Clear" type="button">C</button>
-                </div>
-            </div>
-        </main>
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <script src="script.js" defer></script>
+    <title>Calculator</title>
+  </head>
+  <body>
+    <main class="main">
+      <div class="calculator">
+        <div class="screen">
+          <div class="screen-last" id="lastOperationScreen"></div>
+          <div class="screen-current" id="currentOperationScreen">0</div>
+        </div>
+        <div class="buttons-grid">
+          <button
+            class="btn btn-red span-2"
+            id="clearBtn"
+            onclick="this.blur();"
+          >
+            CLEAR
+          </button>
+          <button
+            class="btn btn-blue span-2"
+            id="deleteBtn"
+            onclick="this.blur();"
+          >
+            DELETE
+          </button>
+          <button class="btn" onclick="this.blur();" data-number>7</button>
+          <button class="btn" onclick="this.blur();" data-number>8</button>
+          <button class="btn" onclick="this.blur();" data-number>9</button>
+          <button class="btn" onclick="this.blur();" data-operator>÷</button>
+
+          <button class="btn" onclick="this.blur();" data-number>4</button>
+          <button class="btn" onclick="this.blur();" data-number>5</button>
+          <button class="btn" onclick="this.blur();" data-number>6</button>
+          <button class="btn" onclick="this.blur();" data-operator>×</button>
+
+          <button class="btn" onclick="this.blur();" data-number>1</button>
+          <button class="btn" onclick="this.blur();" data-number>2</button>
+          <button class="btn" onclick="this.blur();" data-number>3</button>
+          <button class="btn" onclick="this.blur();" data-operator>−</button>
+
+          <button class="btn" onclick="this.blur();" id="pointBtn">.</button>
+          <button class="btn" onclick="this.blur();" data-number>0</button>
+          <button class="btn" onclick="this.blur();" id="equalsBtn">=</button>
+          <button class="btn" onclick="this.blur();" data-operator>+</button>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
