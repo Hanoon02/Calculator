@@ -1,47 +1,140 @@
-h1 {text-align: center;}
-.flex-container {
-    display: flex;
+:root {
+    --background: #f6f6f6;
+    --font: #222;
+    --border: #333;
+    --screen: #eee;
+    --calculator: #aaa;
+    --btn: #eee;
+    --btn-hover: #ddd;
+    --btn-active: #ccc;
+    --btn-red: #faa;
+    --btn-red-hover: #e99;
+    --btn-red-active: #d88;
+    --btn-blue: #aaf;
+    --btn-blue-hover: #99e;
+    --btn-blue-active: #88d;
+}
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+padding: 0;
+margin: 0;
+}
+html {
+    /* footer support */
+    position: relative;
+    min-height: 100%;
+}
+body {
+    background-color: var(--background);
+    color: var(--font);
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    /* footer support */
+    margin-bottom: 100px;
+}
+button {
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    outline: none;
 }
 
-.flex-container div {
-    content: "";
-    clear: both;
-    display: table;
-    background: rgb(11, 216, 252);
-    border: 4px solid rgba(0, 0, 0, 0);
-    height: 100px;
-    width: 250px;
-    flex: 1 1 auto;
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+    min-height: 500px;
+    padding: 10px;
+    margin-top: 50px;
 }
-#Add, #Subtract, #Multiply, #Divide, #Clear {
-    text-decoration-thickness: 5px;
-    padding: 70px 0;
-    border: 3px solid green;
-    text-align: center;
-    background: rgb(255, 255, 255);
-    border: 4px solid rgb(0, 0, 0);
-    height: 100px;
-    width: 50%;
-    margin: auto;
-    font-size: 30px;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    text-shadow: 2px 2px 2px rgb(0, 0, 0);
-    flex: 1 1 auto;
+
+.calculator {
+    width: 400px;
+    border: 2px var(--border) solid;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: var(--calculator);
 }
-#one, #two, #three, #four, #five, #six, #seven, #eight, #nine, #zero {
-    text-decoration-thickness: 5px;
-    padding: 70px 0;
-    border: 3px solid green;
-    text-align: center;
-    background: rgb(255, 255, 255);
-    border: 4px solid rgb(0, 0, 0);
-    height: 100px;
-    width: 50%;
-    margin: auto;
-    font-size: 30px;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    text-shadow: 2px 2px 2px rgb(0, 0, 0);
-    flex: 1 1 auto;
+  
+.screen {
+    padding: 10px 20px;
+    border: 2px var(--border) solid;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: var(--screen);
+    text-align: right;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+  
+.Last {
+    min-height: 32px;
+    font-size: 20px;
+}
+  
+.Current {
+    min-height: 64px;
+    font-size: 40px;
+  }
+  
+.buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+  }
+  
+.span-2 {
+    grid-column: span 2;
+  }
+  
+.btn {
+    padding: 20px;
+    border: 2px var(--border) solid;
+    border-radius: 5px;
+    background-color: var(--btn);
+    font-size: 20px;
+  }
+  
+.btn:hover {
+    background-color: var(--btn-hover);
+  }
+  
+.btn:active {
+    background-color: var(--btn-active);
+  }
+  
+.btn-red {
+    background-color: var(--btn-red);
+  }
+  
+.btn-red:hover {
+    background-color: var(--btn-red-hover);
+  }
+  
+.btn-red:active {
+    background-color: var(--btn-red-active);
+  }
+  
+.btn-blue {
+    background-color: var(--btn-blue);
+  }
+  
+.btn-blue:hover {
+    background-color: var(--btn-blue-hover);
+  }
+  
+.btn-blue:active {
+    background-color: var(--btn-blue-active);
+  }
+  
+  /* Disables input spinners in calc screen */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

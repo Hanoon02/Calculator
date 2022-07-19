@@ -1,100 +1,58 @@
-const zero = document.getElementById("zero");
-const one = document.getElementById("one");
-const two = document.getElementById("two");
-const three = document.getElementById("three");
-const four = document.getElementById("four");
-const five = document.getElementById("five");
-const six = document.getElementById("six");
-const seven = document.getElementById("seven");
-const eight = document.getElementById("eight");
-const nine = document.getElementById("nine");
-let number1=0;
-let number2=0;
+let firstOperand = ''
+let secondOperand = ''
+let currentOperation = null
+let shouldResetScreen = false
 
-function add(){
-    alert("The sum is: " + (parseInt(number1) + parseInt(number2)));
+const numberButtons = document.querySelectorAll('[data-number]')
+const operatorButtons = document.querySelectorAll('[data-operator]')
+const equalsButton = document.getElementById('equalsBtn')
+const clearButton = document.getElementById('clearBtn')
+const deleteButton = document.getElementById('deleteBtn')
+const pointButton = document.getElementById('pointBtn')
+const lastOperationScreen = document.getElementById('lastOperation')
+const currentOperationScreen = document.getElementById('currentOperation')
+
+window.addEventListener('keydown', handleKeyboardInput);
+equalsButton.addEventListener('click', evaluate);
+clearButton.addEventListener('click', clear);
+deleteButton.addEventListener('click', deleteNum);
+pointButton.addEventListener('click', appendPoint);
+
+function roundResult(number){
+    return Math.round(number*1000)/1000
+}
+
+function convertOperator(keyboardOperator){
+    if(keyboardOperator === '+') return '+';
+    if(keyboardOperator === '-') return '-';
+    if(keyboardOperator === 'x') return 'x';
+    if(keyboardOperator === '÷') return '÷';
+}
+
+function add(a,b){
+    return a + b;
 };
-function subtract(){
-    alert("The difference is: " + (parseInt(number1) - parseInt(number2)));
+function subtract(a,b){
+    return a - b;
 };
-function multiply(){
-    alert("The product is: " + (parseInt(number1) * parseInt(number2)));
+function multiply(a,b){
+    return a * b;
 }
-function divide(){
-    alert("The quotient is: " + (parseInt(number1) / parseInt(number2)));
+function divide(a,b){
+    return a / b;
 }
 
-function assignNumber(num){
-    if(number1==0){
-        number1 = num;
+function operate(operator,a,b){
+    a = Number(a);
+    b = Number(b);
+    switch(operator){
+        case '+':
+            return add(a,b);
+        case '-':
+            return subtract(a,b);
+        case 'x':
+            return multiply(a,b);
+        case '÷':
+            return divide(a,b);
     }
-    else{
-        number2 = num;
-    }
 }
-function clear(){
-    number1 = 0;
-    number2 = 0;
-}
-
-one.addEventListener("click");
-{
-    event.target.style.backgroundColor = 'red';
-    assignNumber(1);
-}
-two.addEventListener("click");
-{
-    assignNumber(2);
-}
-three.addEventListener("click");
-{
-    assignNumber(3);
-}
-four.addEventListener("click");
-{
-    assignNumber(4);
-}
-five.addEventListener("click");
-{
-    assignNumber(5);
-}
-six.addEventListener("click");
-{
-    assignNumber(6);
-}
-seven.addEventListener("click");
-{
-    assignNumber(7);
-}
-eight.addEventListener("click");
-{
-    assignNumber(8);
-}
-nine.addEventListener("click");
-{
-    assignNumber(9);
-}
-zero.addEventListener("click");
-{
-    assignNumber(0);
-}
-
-add.addEventListener("click");
-{
-    add();
-}
-subtract.addEventListener("click");
-{
-    subtract();
-}
-multiply.addEventListener("click");
-{
-    multiply();
-}
-divide.addEventListener("click");
-{
-    divide();
-}
-
-// Language: javascript
-// Path:
