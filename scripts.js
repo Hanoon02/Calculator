@@ -1,137 +1,146 @@
-let firstOperand = ''
-let secondOperand = ''
-let currentOperation = null
-let shouldResetScreen = false
+const calcKeys = document.querySelector('.all-buttons');
+const userInput = document.querySelector('#user-input');
+const calculator = document.querySelector('.calculator');
+const displayResult = document.querySelector('#result');
+let isEqualsPressed = false;
+let equation = 0;
+let checkForDecimal = '';
 
-const numberButtons = document.querySelectorAll('[data-number]')
-const operatorButtons = document.querySelectorAll('[data-operator]')
-const equalsButton = document.getElementById('equalsBtn')
-const clearButton = document.getElementById('clearBtn')
-const deleteButton = document.getElementById('deleteBtn')
-const pointButton = document.getElementById('pointBtn')
-const lastOperationScreen = document.getElementById('lastOperationScreen')
-const currentOperationScreen = document.getElementById('currentOperationScreen')
+calcKeys.addEventListener('click', (event) => {
+  if(!event.target.closest('button')) return;
 
-window.addEventListener('keydown', handleKeyboardInput)
-equalsButton.addEventListener('click', evaluate)
-clearButton.addEventListener('click', clear)
-deleteButton.addEventListener('click', deleteNumber)
-pointButton.addEventListener('click', appendPoint)
+  const key = event.target;
+  const keyValue = key.textContent;
+  let inputDisplay = userInput.textContent;
+  const { type } = key.dataset;
+  const { previousKeyType } = calculator.dataset;
 
-numberButtons.forEach((button) =>
-  button.addEventListener('click', () => appendNumber(button.textContent))
-)
-
-operatorButtons.forEach((button) =>
-  button.addEventListener('click', () => setOperation(button.textContent))
-)
-
-function appendNumber(number) {
-  if (currentOperationScreen.textContent === '0' || shouldResetScreen)
-    resetScreen()
-  currentOperationScreen.textContent += number
-}
-
-function resetScreen() {
-  currentOperationScreen.textContent = ''
-  shouldResetScreen = false
-}
-
-function clear() {
-  currentOperationScreen.textContent = '0'
-  lastOperationScreen.textContent = ''
-  firstOperand = ''
-  secondOperand = ''
-  currentOperation = null
-}
-
-function appendPoint() {
-  if (shouldResetScreen) resetScreen()
-  if (currentOperationScreen.textContent === '')
-    currentOperationScreen.textContent = '0'
-  if (currentOperationScreen.textContent.includes('.')) return
-  currentOperationScreen.textContent += '.'
-}
-
-function deleteNumber() {
-  currentOperationScreen.textContent = currentOperationScreen.textContent
-    .toString()
-    .slice(0, -1)
-}
-
-function setOperation(operator) {
-  if (currentOperation !== null) evaluate()
-  firstOperand = currentOperationScreen.textContent
-  currentOperation = operator
-  lastOperationScreen.textContent = `${firstOperand} ${currentOperation}`
-  shouldResetScreen = true
-}
-
-function evaluate() {
-  if (currentOperation === null || shouldResetScreen) return
-  if (currentOperation === '÷' && currentOperationScreen.textContent === '0') {
-    alert("You can't divide by 0!")
-    return
+  if(type === 'number' && !isEqualsPressed) {
+    if (inputDisplay === '0') {
+      userInput.textContent = (previousKeyType === 'operator') ? inputDisplay + keyValue : keyValue;
+      equation = (previousKeyType === 'operator') ? equation + key.value : key.value;
+      checkForDecimal = checkForDecimal + keyValue;
+    }else {
+      if (checkForDecimal.length >= 19) {
+        var replaceNumber = checkForDecimal;
+        checkForDecimal = Number(checkForDecimal).toExponential(2);
+        userInput.textContent = inputDisplay.replace(replaceNumber, checkForDecimal);
+      }else {
+        userInput.textContent = userInput.textContent.includes('N') ? 'NaN' :
+            userInput.textContent.includes('I') ? 'Infinity' : inputDisplay + keyValue;
+        equation = equation + key.value;
+        checkForDecimal = checkForDecimal + keyValue;
+      }
+    }
   }
-  secondOperand = currentOperationScreen.textContent
-  currentOperationScreen.textContent = roundResult(
-    operate(currentOperation, firstOperand, secondOperand)
-  )
-  lastOperationScreen.textContent = `${firstOperand} ${currentOperation} ${secondOperand} =`
-  currentOperation = null
-}
 
-function roundResult(number) {
-  return Math.round(number * 1000) / 1000
-}
+  if (type === 'operator' && previousKeyType !== 'operator'
+      && !isEqualsPressed && !inputDisplay.includes('Infinity')) {
+    checkForDecimal = '';
+    userInput.textContent = inputDisplay + ' ' + keyValue + ' ';
+    equation = equation + ' ' + key.value + ' ';
 
-function handleKeyboardInput(e) {
-  if (e.key >= 0 && e.key <= 9) appendNumber(e.key)
-  if (e.key === '.') appendPoint()
-  if (e.key === '=' || e.key === 'Enter') evaluate()
-  if (e.key === 'Backspace') deleteNumber()
-  if (e.key === 'Escape') clear()
-  if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/')
-    setOperation(convertOperator(e.key))
-}
-
-function convertOperator(keyboardOperator) {
-  if (keyboardOperator === '/') return '÷'
-  if (keyboardOperator === '*') return '×'
-  if (keyboardOperator === '-') return '−'
-  if (keyboardOperator === '+') return '+'
-}
-
-function add(a, b) {
-  return a + b
-}
-
-function substract(a, b) {
-  return a - b
-}
-
-function multiply(a, b) {
-  return a * b
-}
-
-function divide(a, b) {
-  return a / b
-}
-
-function operate(operator, a, b) {
-  a = Number(a)
-  b = Number(b)
-  switch (operator) {
-    case '+':
-      return add(a, b)
-    case '−':
-      return substract(a, b)
-    case '×':
-      return multiply(a, b)
-    case '÷':
-      if (b === 0) return null
-      else return divide(a, b)
-    default:
-      return null
   }
+
+  if (type === 'decimal' && (previousKeyType === 'number' || inputDisplay === '0')
+      && !isEqualsPressed && !inputDisplay.includes('Infinity')) {
+    if (!checkForDecimal.includes('.')) {
+      userInput.textContent = inputDisplay + keyValue;
+      equation = equation + key.value;
+      checkForDecimal = checkForDecimal + keyValue;
+    }
+  }
+
+  if ((type === 'backspace' || type === 'reset') && inputDisplay !== '0') {
+    if (type === 'backspace' && !isEqualsPressed) {
+      userInput.textContent = inputDisplay.substring(0, inputDisplay.length - 1);
+      equation = equation.substring(0, equation.length - 1);
+      checkForDecimal = checkForDecimal.substring(0, checkForDecimal.length - 1);
+    } else {
+      inputDisplay = '0';
+      userInput.textContent = inputDisplay;
+      displayResult.innerHTML = '&nbsp;';
+      isEqualsPressed = false;
+      equation = '';
+      checkForDecimal = '';
+    }
+
+  }
+
+  if (type === 'equal') {
+    isEqualsPressed = true;
+    const finalResult = handleEquation(equation);
+
+    if (finalResult || finalResult === 0) {
+      displayResult.textContent = (!Number.isInteger(finalResult)) ? finalResult.toFixed(2) :
+          (finalResult.toString().length >= 16) ? finalResult.toExponential(2) : finalResult ;
+    } else {
+      displayResult.textContent = 'Math Error';
+    }
+
+  }
+
+  calculator.dataset.previousKeyType = type;
+})
+
+function calculate(firstNumber, operator, secondNumber) {
+
+  firstNumber = Number(firstNumber);
+  secondNumber = Number(secondNumber);
+
+  if (operator === 'plus' || operator === '+') return firstNumber + secondNumber;
+  if (operator === 'minus' || operator === '-') return firstNumber - secondNumber;
+  if (operator === 'multiply' || operator === 'x') return firstNumber * secondNumber;
+  if (operator === 'divide' || operator === '/') return firstNumber / secondNumber;
+  if (operator === 'remainder' || operator === '%') return firstNumber % secondNumber;
 }
+
+function handleEquation(equation) {
+
+  equation = equation.split(" ");
+  const operators = ['/', 'x', '%', '+', '-'];
+  let firstNumber;
+  let secondNumber;
+  let operator;
+  let operatorIndex;
+  let result;
+  for (var i = 0; i < operators.length; i++) {
+    while (equation.includes(operators[i])) {
+      operatorIndex = equation.findIndex(item => item === operators[i]);
+      firstNumber = equation[operatorIndex-1];
+      operator = equation[operatorIndex];
+      secondNumber = equation[operatorIndex+1];
+      result = calculate(firstNumber, operator, secondNumber);
+      equation.splice(operatorIndex - 1, 3, result);
+    }
+  }
+
+  return result;
+}
+document.addEventListener('keydown', (event) => {
+
+  let getOperators = {
+    '/': 'divide',
+    'x': 'multiply',
+    '*': 'multiply',
+    '%': 'remainder',
+    '+': 'plus',
+    '-': 'minus'
+  }
+
+  if(!isNaN(event.key) && event.key !== ' '){
+    document.getElementById(`digit-${event.key}`).click();
+  }
+  if (['/', 'x', '+', '-', '*', '%'].includes(event.key)) {
+    document.getElementById(getOperators[event.key]).click();
+  }
+  if (event.key === 'Backspace' || event.key ==='c' || event.key === 'C') {
+    document.getElementById('clear').click();
+  }
+  if (event.key === '=' || event.key === 'Enter') {
+    document.getElementById('equals').click();
+  }
+  if (event.key === '.') {
+    document.getElementById('decimal').click();
+  }
+});
